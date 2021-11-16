@@ -7,10 +7,12 @@
 
 > 排版引擎(layout engine),也被成为```浏览器引擎```(browser engine)、```页面渲染引擎```(rendering engine)
 > 或者```样板引擎```
+
 ``执行流程1:depend/complie-1.png``
 
 ## 浏览器渲染流程
 > 当HTML解析过程中遇到了JavaScript标签，浏览器会停止解析HTML，而去加载JavaScript代码
+
  ```执行流程2:depend/complie-2.png```
 
 ## javascript引擎
@@ -25,7 +27,9 @@
 ## V8引擎
 V8是用C++编写的Google开源高性能JavaScript和WebAssenbly引擎，他用于Chrome和Node.js等
 V8可以独立运行，也可以嵌入到C++应用程序中
+
 ```V8引擎：depend/V8.png```
+
 > js代码由Parse模块转换成AST(抽象语法树)
 > Ignition是一个解释器，会将AST转换成ByteCode字节码
 > TurboFun是一个编译器，可以将机器吗编译成CPU可以直接执行的机器码
