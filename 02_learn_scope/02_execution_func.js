@@ -1,3 +1,6 @@
+/**
+ * flowChart/execution_func.drawio
+*/
 var name = 'why';
 
 foo();
@@ -8,11 +11,11 @@ function foo(num){
 }
 
 
-var GlobalObject = {
-    String:'class',
-    Date:'class',
-    setTimeout:'function',
-    window:GlobalObject, //window.window.window.window.window .....
-    name:undefined,
-    foo:Oxa00
-}
+// var GlobalObject = {
+//     String:'class',
+//     Date:'class',
+//     setTimeout:'function',
+//     window:GlobalObject, //window.window.window.window.window .....
+//     name:undefined,
+//     foo:Oxa00
+// }
