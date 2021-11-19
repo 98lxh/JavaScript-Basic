@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="bFUFzm4DCWlxoE2A-B70" name="第 1 页">
-        <mxGraphModel dx="1698" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1884" dy="471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -22,7 +22,7 @@
                 <mxCell id="23" value="GO对象" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="314" y="110" width="50" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="24" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                <mxCell id="24" value="parentScope:Go,&lt;br&gt;函数体" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
                     <mxGeometry x="294" y="290" width="120" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="25" value="foo函数对象（0xa00）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
@@ -46,14 +46,14 @@
                 <mxCell id="33" value="AO对象(foo)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="470" y="110" width="70" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="34" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                <mxCell id="34" value="&lt;span&gt;parentScope:AO(foo),&lt;/span&gt;&lt;br&gt;&lt;span&gt;函数体&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
                     <mxGeometry x="445" y="290" width="120" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="35" value="bar函数对象（0xb00）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="440" y="260" width="130" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="-165" y="240" width="165" height="90" as="geometry"/>
+                    <mxGeometry x="-165" y="240" width="165" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="38" value="FEC(函数执行上下文)(foo)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="-150" y="220" width="145" height="20" as="geometry"/>
@@ -62,15 +62,15 @@
                     <mxGeometry x="-141" y="240" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="40" value="执行代码&lt;br&gt;var name = &quot;foo&quot;&lt;br&gt;return bar(0xb00)&lt;br&gt;执行完成出栈" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="-142" y="280" width="120" height="50" as="geometry"/>
+                    <mxGeometry x="-142" y="280" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="41" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="-30" y="120" width="165" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="42" value="FEC(函数执行上下文)(foo)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="42" value="FEC(函数执行上下文)(bar)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="-15" y="100" width="145" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="执行代码&lt;br&gt;console.log(&quot;bar&quot;,name)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="43" value="执行代码&lt;br&gt;console.log(&quot;bar&quot;,name);&lt;br&gt;log:&quot;bar&quot; &quot;foo&quot;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="-15" y="160" width="137" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" value="VO:AO(bar);&lt;br&gt;scope chain:VO+parent scope" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -81,6 +81,9 @@
                 </mxCell>
                 <mxCell id="46" value="AO对象(bar)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="615" y="110" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px&quot;&gt;闭包由两部分组成:函数+可以访问的自由变量&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="20" width="380" height="20" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
