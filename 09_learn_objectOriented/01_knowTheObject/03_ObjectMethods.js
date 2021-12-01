@@ -16,3 +16,4 @@ Object.seal(obj)
 Object.freeze(obj)
 obj.name = 'bubu'
 console.log(obj)
+

@@ -11,3 +11,6 @@ console.log(foo.prototype)
 var fn1 = new foo();
 var fn2 = new foo();
 console.log(fn1.__proto__ === foo.prototype) //true
+
+
+
