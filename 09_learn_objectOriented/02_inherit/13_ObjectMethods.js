@@ -42,3 +42,4 @@ console.log(instanceOf([], Array))
 
 //isPrototypeOf
 console.log(Object.prototype.isPrototypeOf({})) //true
+
