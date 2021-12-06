@@ -57,3 +57,4 @@ const stu1 = new Student('xs',18,'001')
 stu1.running()
 stu1.personMethod()
 console.log(Object.getOwnPropertyDescriptors(stu1.__proto__))
+
