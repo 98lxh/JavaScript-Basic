@@ -97,3 +97,36 @@
     - 也就是在ES6中，对象的属性名可以使用字符串，也可以使用Symbol值;
 + Symbol即使多次创建值，它们也是不同的:Symbol函数执行后每次创建出来的值都是独一无二的;
 + 我们也可以在创建Symbol值的时候传入一个描述description:这个是ES2019(ES10)新增的特性;
+### set的基本使用
++ 在es6之前，我们存储数据的结构主要有两种:数组、对象
+    - 在es6中新增了另外两种数据结构set、map以及他们的另外形式WeakMap、WeakSet
++ set的常见属性和方法
+    - 属性:size=>返回Set中元素的个数
+    - 方法:add=>添加元素
+    - 方法:delete=>删除元素
+    - 方法:clear=>清除所以元素
+    - 方法:has=>查找元素是否存在
+    - 方法:forEach=>与数组的forEach一致
+    - 也可以使用for of遍历
+### WeakSet的基本使用
++ 与set的区别
+    - WeakSet只能存放对象类型
+    - WeakSet对元素的引用是弱引用，如果没有其他对象对其进行引用，那么GC会回收该对象
+    - weakSet没有clear方法且无法做遍历操作
+### Map的基本使用
++ 另一个新增的数据结构是Map，用于存储映射关系
++ 事实上我们对象存储影视关系只能用字符串作为属性名
++ 某些情况我们可能希望通过其他类型作为key，比如对象，这个时候会自动将对象转成字符串来作为key
++ Map常见的属性:
+    - size:返回Map中元素的个数;
++ Map常见的方法:
+    - set(key, value):在Map中添加key、value，并且返回整个Map对象; p get(key):根据key获取Map中的value;
+    - has(key):判断是否包括某一个key，返回Boolean类型;
+    - delete(key):根据key删除一个键值对，返回Boolean类型;
+    - clear():清空所有的元素;
+    - forEach(callback, [, thisArg]):通过forEach遍历Map;
+### WeakMap
++ 与Map一样是通过键值对形式存在
++ 与Map的区别在于:
+    - 区别一:WeakMap的key只能使用对象，不接受其他类型的key
+    - 区别二:WeakMap对对象是弱引用

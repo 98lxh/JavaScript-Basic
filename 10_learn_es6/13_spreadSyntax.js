@@ -30,3 +30,5 @@ const obj = {...userInfo}
 obj.name = 'xxx'
 obj.friends.name = 'xxx'
 console.log(obj,userInfo)
+
+进制
