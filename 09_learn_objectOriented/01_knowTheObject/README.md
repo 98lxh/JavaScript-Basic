@@ -56,9 +56,7 @@
 ## js中的类和对象
 + 当编写如下代码时 我们会称呼这个Person为一个类
 ```javascript
-function Person(){
-
-}
+function Person(){}
 var p1 = new Person()
 ```
  - 在js中Person应该被称为一个构造函数
