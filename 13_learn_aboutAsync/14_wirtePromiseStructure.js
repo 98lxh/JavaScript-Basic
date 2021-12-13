@@ -1,6 +1,8 @@
-const PROMISE_STATUS_PEDDING = 'pedding'
-const PROMISE_STATUS_FULFILLED = 'fulfilled'
-const PROMISE_STATUS_REJECTED = 'rejected'
+const PROMISE_STATUS = {
+    PEADDING:'padding',
+    FULFILLED:'fulfilled',
+    REJECTED:'rejected'
+}
 
 function execFunctionWithCatchError(execFn,value,resolve,reject){
     try{
@@ -11,99 +13,208 @@ function execFunctionWithCatchError(execFn,value,resolve,reject){
     }
 }
 
+
 class _Promise{
     constructor(executor){
-        this.status = PROMISE_STATUS_PEDDING
-        this.value = undefined
-        this.reason = undefined
+        this.value = ''
+        this.reason = ''
+        this.status = PROMISE_STATUS.PEADDING
         this.onFulfilledCallbacks = []
         this.onRejectedCallbacks = []
-        /**
-         * @function
-         * @param {*} value 传递参数
-        */
         const resolve = (value) => {
-            if(this.status === PROMISE_STATUS_PEDDING){
+           if(this.status === PROMISE_STATUS.PEADDING){
                queueMicrotask(()=>{
-                  if(this.status !== PROMISE_STATUS_PEDDING) return
-                  this.status = PROMISE_STATUS_FULFILLED
-                  this.value = value
-                  //then传递来的第一个回调函数
-                  this.onFulfilledCallbacks.forEach(fn => {
-                      fn(this.value)
-                  })
-               })
-            }
+                    if(this.status !== PROMISE_STATUS.PEADDING) return
+                    this.status = PROMISE_STATUS.FULFILLED;
+                    this.value = value;
+                    this.onFulfilledCallbacks.forEach(cb => {
+                        cb()
+                    })
+               });
+           }
         }
-
-         /**
-         * @function
-         * @param {*} reason 拒绝的理由
-        */
         const reject = (reason) => {
-            if(this.status === PROMISE_STATUS_PEDDING){
+            if(this.status === PROMISE_STATUS.PEADDING){
                 queueMicrotask(()=>{
-                     if(this.status !== PROMISE_STATUS_PEDDING) return
-                    this.status = PROMISE_STATUS_REJECTED
-                    this.reason = reason
-                    //then传入的第二个回调
-                    this.onRejectedCallbacks.forEach(fn => {
-                        fn(this.reason)
+                    //promise 1 -> pending
+                    if(this.status !== PROMISE_STATUS.PEADDING) return
+                    this.status = PROMISE_STATUS.REJECTED;
+                    this.reason = reason;
+                    this.onRejectedCallbacks.forEach(cb => {
+                        cb()
                     })
                 })
             }
         }
-
         try{
             executor(resolve,reject)
         }catch(err){
             reject(err)
         }
     }
+
     /**
      * @function then方法
-     * @param {function} onFulfilled 状态为fulfilled时执行的回调
-     * @param {function} onRejected 状态为rejected时执行的回调
-     * @returns {object} Promise实例
+     * @param {cb} onFulfilled promise状态为成功执行的回调
+     * @param {cb} onRejected promise状态为失败执行的回调
+     * @returns
     */
-   then(onFulfilled,onRejected){
-       onRejected = onRejected || (err => {throw err})
-       return new _Promise((resolve,reject) => {
-            //如果有异步的任务 在之后resolve/reject之后执行then 可以直接做执行
-            if(this.status === PROMISE_STATUS_FULFILLED && onFulfilled){
-                execFunctionWithCatchError(onFulfilled,this.value,resolve,reject)
-            }
-            if(this.status === PROMISE_STATUS_REJECTED && onRejected){
-                execFunctionWithCatchError(onRejected,this.reason,resolve,reject)
-            }
-            //状态为pedding时才加入到数组
-            if(this.status === PROMISE_STATUS_PEDDING){
-                 onFulfilled && this.onFulfilledCallbacks.push(()=>{
-                    execFunctionWithCatchError(onFulfilled,this.value,resolve,reject)
-                 })
-                 onRejected && this.onRejectedCallbacks.push(()=>{
-                    execFunctionWithCatchError(onRejected,this.reason,resolve,reject)
-                 })
-            }
-       })
+    then(onFulfilled,onRejected){
+      const defaultOnRejected = err => {throw err}
+      const defaultOnFulfilled = value => {return value}
+      onRejected = onRejected || defaultOnRejected
+      onFulfilled = onFulfilled || defaultOnFulfilled
+      return new _Promise((resolve,reject) => {
+        if(this.status !== PROMISE_STATUS.PEADDING && onFulfilled){
+            execFunctionWithCatchError(onFulfilled,this.value,resolve,reject)
+        }
+        if(this.status !== PROMISE_STATUS.PEADDING && onRejected){
+            execFunctionWithCatchError(onRejected,this.reason,resolve,reject)           
+        }
+        if(this.status === PROMISE_STATUS.PEADDING){
+            onFulfilled && this.onFulfilledCallbacks.push(() => {
+                 execFunctionWithCatchError(onFulfilled,this.value,resolve,reject)
+            })
+            onRejected && this.onRejectedCallbacks.push(() => {
+                 execFunctionWithCatchError(onRejected,this.reason,resolve,reject) 
+            })
+        }
+      })
+    }
+    /**
+     * @description catch方法
+     * @param {cb} 失败的回调
+    */
+    catch(onRejected){
+       return this.then(undefined,onRejected)
+    }
+
+    /**
+     * @description finally方法
+     * @param {cb} onFinally 最终执行的回调
+    */
+   finally(onFinally){
+     this.then(() => {
+        onFinally()
+     },()=>{
+        onFinally()
+     })
    }
 
    /**
-    * @function catch方法
-    * @param {function} onRejected 失败的回调
-    * @returns {obejct} Promise实例
+    * @description resolve静态方法
+    * @param {*} value
    */
-   catch(onRejected){
-       this.then(undefined,onRejected)
+   static resolve(value){
+       return new _Promise(resolve => resolve(value))
    }
+
+   /**
+    * @description reject静态方法
+    * @param {*} value
+   */
+    static reject(reason){
+        return new _Promise((resolve,reject) => reject(reason))
+    }
+
+    /**
+     * @description all静态方法
+     * @param {array} promise实例
+    */
+    static all(promises){
+        return new _Promise((resolve,reject) => {
+            const values = []
+            promises.forEach(promise => {
+                promise.then(res => {
+                    values.push(res)
+                    if(values.length === promises.length){
+                        resolve(values)
+                    }
+                },err => {
+                    reject(err)
+                })
+            })
+        })
+    }
+
+     /**
+     * @description allSettled静态方法
+     * @param {array} promise实例
+    */
+      static allSettled(promises){
+        return new _Promise((resolve,reject) => {
+            const resluts = []
+            promises.forEach(promise => {
+                promise.then(res => {
+                    resluts.push({
+                        status:PROMISE_STATUS.FULFILLED,
+                        value:res
+                    })
+                    if(resluts.length === promises.length){
+                        resolve(resluts)
+                    }
+                },err => {
+                    resluts.push({
+                        status:PROMISE_STATUS.REJECTED,
+                        value:err
+                    })
+                    if(resluts.length === promises.length){
+                        resolve(resluts)
+                    }
+                })
+            })
+        })
+    }
+
+    /**
+     * @description race静态方法
+     * @param {array} promises 
+    */
+    static race(promises){
+        return new _Promise((resolve,reject) => {
+            promises.forEach(promise => {
+                promise.then(resolve,reject)
+            })
+        })
+    }
+
+    /**
+     * @description any静态方法
+     * @param {array} promises 
+    */
+     static any(promises){
+        return new _Promise((resolve,reject) => {
+            const reasons = []
+            promises.forEach(promise => {
+                promise.then(res => {
+                    resolve(res)
+                },err => {
+                    reasons.push(err)
+                    if(reasons.length === promises.length){
+                        reject(new AggregateError(reasons))
+                    }
+                })
+            })
+        })
+    }
 }
 
-const promise = new _Promise((resolve,reject)=>{
-    reject(111)
+
+const p1 = new _Promise((resolve,reject) => {
+    setTimeout(()=>{reject(111) },1000)
 })
 
-promise.then(res => {
-    console.log('res1:',res)
-}).catch(res=>{
-    console.log('err2',res)
+const p2 = new _Promise((resolve,reject) => {
+    setTimeout(()=>{reject(222) },2000)
+})
+
+const p3 = new _Promise((resolve,reject) => {
+    setTimeout(()=>{reject(333) },3000)
+})
+
+
+_Promise.any([p1,p2,p3]).then(res => {
+    console.log(res)
+}).catch(err => {
+    console.log(err.errors)
 })
