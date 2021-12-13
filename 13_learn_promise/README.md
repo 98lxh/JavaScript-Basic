@@ -92,3 +92,57 @@
 + any方法是ES12中新增的方法，和race方法是类似的:
     - any方法会等到一个fulfilled状态，才会决定新Promise的状态;
     -  如果所有的Promise都是reject的，那么也会等到所有的Promise都变成rejected状态
+### 手写promise总结
++ Promise规范:
+    - Promise A+
++ Promise类设计
+    - class _Promise{}
++ 构造函数的规划
+- ```javascript
+    class _Promise{
+        constructor(executor){
+            //定义状态
+            //定义resolve reject回调
+            //resolve:执行微任务队列 改变状态  获取value then传入执行成功回调
+            //reject:执行微任务队列 改变状态  获取reason then传入执行拒绝回调
+            executor(resolve,reject)
+        }
+    }
+    ```
++ then方法的实现
+- ```javascript
+    class _Promise{
+        then(onFulfilled,onRejected){
+            //this.onFulfilled = onFulfilled
+            //this.onRejected = onRejected
+            //1. 判断onFulfilled onRejected 没有值会给默认值
+            //2. 返回 Promise resolve reject
+            //3. 判断之前的promise状态是否确定
+            // onFulfilled onRejected 直接执行(捕获异常)
+            //4. 添加到数组push(()=>{
+            // 执行onFulfilled onRjected直接执行代码   
+            //})
+        }
+    }
+  ```
++ catch方法的实现
+- ```javascript
+    class _Promise{
+        catch(onRejected){
+            return this.then(undefined,onRejected)
+        }
+    }
+  ```
++ finally方法
+- ```javascript
+    class _Promise{
+        catch(onFinally){
+            return this.then(()=>{
+                onFinally()
+            },()=>{
+                onFinally()
+            })  
+        }
+    }
+  ```
+
