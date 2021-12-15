@@ -25,3 +25,4 @@ console.log(generator.next(10))
 
 //相当于在第二段后添加了throw了error -> 如果捕获了异常可以继续执行
 console.log(generator.throw(20))
+

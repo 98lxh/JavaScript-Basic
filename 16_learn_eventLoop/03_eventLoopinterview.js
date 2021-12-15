@@ -110,8 +110,7 @@
 //1.
 Promise.resolve().then(() => {
     console.log(0)
-    // return Promise.resolve(4)
-    return 4
+    return Promise.resolve(4)
 }).then(res => {
     console.log(res)
 })

@@ -20,3 +20,4 @@ async function foo3(){
 console.log(0)
 foo3()
 console.log(5)
+
